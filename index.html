@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.min.js"></script>
+    <script src="https://unpkg.com/ml5@0.1.3/dist/ml5.min.js"></script> 
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+
+  </head>
+  <body>
+    <main>
+       <script src="sketch.js"></script>
+      <script src="jquery-1.11.1.min.js"></script>
+      <script src="tracery.js"></script>
+     <h1 id= "words">question</h1>
+   <button onclick="generate();">scroll</button>
+ 
+    <script>
+       //Put your word lists below in the grammarObj variable.
+  //The name of the list in "", colon, the words in the list in []
+  //The first line "question" is the form of the sentence. The following lines are the words that can go into it.
+       var grammarObj = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+    "question": ["you #verb#"],
+    "verb": ["experienced", "mattered with", "grew during", "knew from", "unfolded in", "performed for", "did", "failed the", "won from", "cared about", "lost from", "destroyed during", "shared in", "learned from", "heard", "saw", "said", "needed from", "wanted from", "touched", "sensed", "perpetuated in", "colonized during", "forced"]
+  }
+
+  var grammar = tracery.createGrammar(grammarObj);
+
+  //attaches question form to h1 variable above
+  function generate() {
+    $('h1').each(function() {
+      var t = grammar.flatten("#question#");
+      $(this).text(t);
+    }) 
+  }
+      
+       //function to change questions
+        generate();
+      
+    </script> 
+          </main>
+  </body>
+</html>
