@@ -1,44 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.8.0/addons/p5.sound.min.js"></script>
-    <script src="https://unpkg.com/ml5@0.1.3/dist/ml5.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ml5/0.12.2/ml5.min.js"></script>
+  
+    <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
+    <!-- Load TensorFlow.js -->
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <!-- Load Posenet -->
+    <script src="https://unpkg.com/@tensorflow-models/posenet">
+    </script>
+    <script type="text/javascript">
+      posenet.load().then(function(net) {
+        // posenet model loaded
+      });
+    </script>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Nova+Square">
+    <meta charset="utf-8" />
+<style>
+        body {
+            font-family: 'Nova Square', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        #sketch-holder {
+            flex: 1;
+        }
+        #words {
+            flex: 1;
+            padding-left: 20px;
+        }
+    </style>
+    <link rel="stylesheet"
+  href="https://fonts.googleapis.com/css?family=Nova+Square">
     <meta charset="utf-8" />
 
   </head>
   <body>
     <main>
        <script src="sketch.js"></script>
+      <script src="body.js"></script>
       <script src="jquery-1.11.1.min.js"></script>
       <script src="tracery.js"></script>
-     <h1 id= "words">question</h1>
-   <button onclick="generate();">scroll</button>
+      <script src="path/to/p5.sound.js"></script>
+     <nav>
+       <div style="font-family: 'Nova Square', sans serif;"><p>RGB Root Matriz Color Dance<br><br>A lineage of kindred spirit is listening to your body in this time.<p></div>
+      </nav>
+  <div id="sketch-holder">
+      <!-- Our sketch will go here! -->
+    </div>
+      <div id="words">
+     <h1 id= "q"></h1>
+      <h1 id= "e"></h1>
+      <h1 id= "d"></h1>
+        <h1 id = "fh"></h1>
+      <h1 id= "j"></h1>
+      <h1 id= "kt"></h1>
+      <h1 id= "0"></h1>
+      <h1 id= "1"></h1>
+        <h1 id= "3"></h1>
+        <h1 id= "4"></h1>
+        <h1 id= "5"></h1>
+        <h1 id= "6"></h1>
+        <h1 id= "8"></h1>
+        <h1 id= "9"></h1>
+      </div>
+      <!--  <h2 id="words2">question</h2>
+      <h3 id="words3">question</h3>
+      <h4 id="words4">question</h4>
+ <button onclick="generate();">scroll</button>-->
  
     <script>
        //Put your word lists below in the grammarObj variable.
   //The name of the list in "", colon, the words in the list in []
   //The first line "question" is the form of the sentence. The following lines are the words that can go into it.
-       var grammarObj = {
+      //p positive, n neutral
+       var grammarObjq = {
     //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
-    "question": ["you #verb#"],
-    "verb": ["experienced", "mattered with", "grew during", "knew from", "unfolded in", "performed for", "did", "failed the", "won from", "cared about", "lost from", "destroyed during", "shared in", "learned from", "heard", "saw", "said", "needed from", "wanted from", "touched", "sensed", "perpetuated in", "colonized during", "forced"]
+         //G for grounded, Y for yearning, o for outcome
+         "promptq": ["#q#."], //"your #open adj# #root G# is #root verb# your #root Y# from #closed adj# #root G# for your #root O#.", "#ground# is #holding# me as I am #holding# her, she #mirrors# me, I am #strong# and #soft#.", "finding your #ground#, #leaving behind# your #root Y#."],
+         "q": ["doubt", "cover", "veil", "2/3 grown"]
   }
 
-  var grammar = tracery.createGrammar(grammarObj);
+  var grammarq = tracery.createGrammar(grammarObjq);
 
   //attaches question form to h1 variable above
-  function generate() {
+ function generateq() {
+    var gq = grammarq.flatten("#promptq#");
+    $("#q").prepend(gq + "<br>");  // Adds the newest word at the top
+}
+      grammarObj1 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         //G for grounded, Y for yearning, o for outcome
+         "prompt1": ["#1#."],
+        "1": ["hope"],
+    }
+
+  var grammar1 = tracery.createGrammar(grammarObj1);
+
+  //attaches question form to h1 variable above
+  function generate1() {
     $('h1').each(function() {
-      var t = grammar.flatten("#question#");
-      $(this).text(t);
+      var g1 = grammar1.flatten("#prompt1#");
+      $("#1").prepend(g1 + "<br>"); 
+    }) 
+  }
+       var grammarObj3 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         //G for grounded, Y for yearning
+         "prompt3": ["#growth#."],
+         "growth": ["growth", "transition", "feedback", "desire"],
+         
+  }
+
+  var grammar3 = tracery.createGrammar(grammarObj3);
+
+  //attaches question form to h1 variable above
+  function generate3() {
+    $('h1').each(function() {
+      var g3 = grammar3.flatten("#prompt3#");
+     $("#3").prepend(g3 + "<br>"); 
+    }) 
+  }
+      var grammarObj4 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "prompt4": ["#limit#."],
+        "limit": ["limit", "cry"],
+  }
+
+  var grammar4 = tracery.createGrammar(grammarObj4);
+
+  //attaches question form to h1 variable above
+  function generate4() {
+    $('h1').each(function() {
+      var g4 = grammar4.flatten("#prompt4#");
+      $("#4").prepend(g4 + "<br>"); 
+    }) 
+  }
+      var grammarObj5 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         //G for grounded, Y for yearning
+         "prompt5": ["#scale#."],
+           "scale": ["scale", "order", "hold"]        
+  }
+
+  var grammar5 = tracery.createGrammar(grammarObj5);
+
+  //attaches question form to h1 variable above
+  function generate5() {
+    $('h1').each(function() {
+      var g5 = grammar5.flatten("#prompt5#");
+      $("#5").prepend(g5 + "<br>"); 
+    }) 
+  }
+       var grammarObj6 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "prompt6": ["#6#."],
+          "6":["learn", "read", "study"]
+  }
+
+  var grammar6 = tracery.createGrammar(grammarObj6);
+
+  //attaches question form to h1 variable above
+  function generate6() {
+    $('h1').each(function() {
+      var g6 = grammarSOn.flatten("#prompt6#");
+      $("#6").prepend(g6 + "<br>"); 
+    }) 
+  }
+            var grammarObj8 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "prompt8":["#8#."],
+                "8": ["structure", "array", "sharing"]
+            }
+  var grammar8 = tracery.createGrammar(grammarObj8);
+
+  //attaches question form to h1 variable above
+  function generate8() {
+    $('h1').each(function() {
+      var g8 = grammar8.flatten("#prompt8#");
+      $("#8").prepend(g8 + "<br>"); 
+    }) 
+  }
+       var grammarObj9 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "prompt9": ["#9#"],
+           //"your #heart G# is #heart adj# to #heart verb# the #heart Y#"],
+                "9": ["free", "cheer", "degrowth"]
+  }
+
+  var grammar9 = tracery.createGrammar(grammarObj9);
+
+  //attaches question form to h1 variable above
+  function generate9() {
+    $('h1').each(function() {
+      var g9 = grammar9.flatten("#prompt9#");
+     $("#9").prepend(g9 + "<br>"); 
+    }) 
+  }
+       var grammarObj0 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         //G for grounded, Y for yearning
+         "prompt0": ["#0#."], 
+         "0": ["make", "revolution"]
+
+  }
+
+  var grammar0 = tracery.createGrammar(grammarObj0);
+
+  //attaches question form to h1 variable above
+  function generate0() {
+    $('h1').each(function() {
+      var g0 = grammar0.flatten("#prompt0#");
+      $("#0").prepend(g0 + "<br>"); 
+    }) 
+  }
+       var grammarObj7 = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+       "prompt7": ["#7#"],
+         "7":["work", "fiddle"]
+                          
+  }
+
+  var grammar7 = tracery.createGrammar(grammarObj7);
+
+  //attaches question form to h1 variable above
+  function generate7() {
+    $('h1').each(function() {
+      var g7 = grammarTHRn.flatten("#7#");
+      $("#7").prepend(g7 + "<br>"); 
+    }) 
+  }
+       var grammarObje = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "prompte": ["#e#."],
+         "e": ["place", "category", "new", "gap", "separation"]
+          
+  }
+
+  var grammare = tracery.createGrammar(grammarObje);
+
+  //attaches question form to h1 variable above
+  function generatee() {
+    $('h1').each(function() {
+      var ge = grammare.flatten("#prompte#");
+      $("#e").prepend(ge + "<br>"); 
+    }) 
+  }
+      var grammarObjd = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "promptd": ["#d#."],
+        "d": ["distibution", "hide", "leak"]
+  }
+
+  var grammard = tracery.createGrammar(grammarObjd);
+
+  //attaches question form to h1 variable above
+  function generated() {
+    $('h1').each(function() {
+      var gd = grammard.flatten("#promptd#");
+     $("#d").prepend(gd + "<br>"); 
+    }) 
+  }
+       var grammarObjfh = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "promptfh": ["#fh#."],
+         "fh": ["loop", "knot", "return"],
+         }
+
+  var grammarfh = tracery.createGrammar(grammarObjfh);
+
+  //attaches question form to h1 variable above
+  function generatefh() {
+    $('h1').each(function() {
+      var gfh = grammarfh.flatten("#promptfh#");
+      $("#fh").prepend(gfh + "<br>"); 
+    }) 
+  }
+   
+       var grammarObjj = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "promptj": ["#j#."],
+         "j": ["feelings", "breath", "approach"],
+         }
+
+  var grammarj = tracery.createGrammar(grammarObjj);
+
+  //attaches question form to h1 variable above
+  function generatej() {
+    $('h1').each(function() {
+      var gj = grammarj.flatten("#promptj#");
+      $("#j").prepend(gj + "<br>"); 
     }) 
   }
       
-       //function to change questions
-        generate();
-      
+       var grammarObjkt = {
+    //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
+         "promptkt": ["#kt#."],
+         "kt": ["plot", "work", "violence"],
+         }
+
+  var grammarkt = tracery.createGrammar(grammarObjkt);
+
+  //attaches question form to h1 variable above
+  function generatekt() {
+    $('h1').each(function() {
+      var gkt = grammarkt.flatten("#promptkt#");
+      $("#kt").prepend(gkt + "<br>"); 
+    }) 
+  }
     </script> 
           </main>
   </body>

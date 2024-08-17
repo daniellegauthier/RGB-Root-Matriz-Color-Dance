@@ -1,10 +1,44 @@
 html, body {
   margin: 0;
   padding: 0;
+  width: 400px;
+  background-color: black;
+text-color: white;
 }
+
+
 canvas{
   display: block;
+  position: absolute;
+  right: 0px;
 }
-h1{
+@font-face {
+    font-family: 'Lemon Milk';
+    src: local("LEMONMILK-Bold.otf"), format('opentype');
+}/* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+ 
+#nav{
+   font-family: 'Lemon Milk';
+  padding-bottom: 1cm;
+  margin-left:1cm;
+  margin-right:-1cm;
+  margin-top:1cm;
+  padding-top: 1cm;
+  padding-bottom: 1cm;
+  height: 15mm;
+}
+
+#words{
+ color: white;
+  font-family: Nova Square;
+  margin: 50px;
+  font-size: 40px;
+   word-wrap: break-word;
+  hyphens: auto;
+  width: 300px;
+}
+p{
   font-size: 20px;
+  color: white;
+  margin: 60px;
 }
