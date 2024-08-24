@@ -22,25 +22,7 @@
     <link rel="stylesheet"
   href="https://fonts.googleapis.com/css?family=Nova+Square">
     <meta charset="utf-8" />
-<style>
-        body {
-            font-family: 'Nova Square', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            display: flex;
-            justify-content: space-between;
-            padding: 20px;
-        }
-        #sketch-holder {
-            flex: 1;
-        }
-        #words {
-            flex: 1;
-            padding-left: 20px;
-        }
-    </style>
+
     <link rel="stylesheet"
   href="https://fonts.googleapis.com/css?family=Nova+Square">
     <meta charset="utf-8" />
@@ -49,12 +31,12 @@
   <body>
     <main>
        <script src="sketch.js"></script>
-      <script src="body.js"></script>
+    
       <script src="jquery-1.11.1.min.js"></script>
       <script src="tracery.js"></script>
       <script src="path/to/p5.sound.js"></script>
      <nav>
-       <div style="font-family: 'Nova Square', sans serif;"><p>RGB Root Matriz Color Dance<br><br>A lineage of kindred spirit is listening to your body in this time.<p></div>
+       <div style="font-family: 'Nova Square', sans serif;"><p>RGB Root Matriz Color Dance<br><br>A kindred spirit is listening to your body in this time.<p></div>
       </nav>
   <div id="sketch-holder">
       <!-- Our sketch will go here! -->
@@ -95,10 +77,12 @@
   var grammarq = tracery.createGrammar(grammarObjq);
 
   //attaches question form to h1 variable above
- function generateq() {
-    var gq = grammarq.flatten("#promptq#");
-    $("#q").prepend(gq + "<br>");  // Adds the newest word at the top
-}
+  function generateq() {
+    $('h1').each(function() {
+      var gq = grammarRp.flatten("#promptq#");
+      $(this).text(gq);
+    }) 
+  }
       grammarObj1 = {
     //change anything: category names, lists, phrase structure, etc. be vigilant about commas and quotations.
          //G for grounded, Y for yearning, o for outcome
@@ -112,7 +96,7 @@
   function generate1() {
     $('h1').each(function() {
       var g1 = grammar1.flatten("#prompt1#");
-      $("#1").prepend(g1 + "<br>"); 
+      $(this).text(g1);
     }) 
   }
        var grammarObj3 = {
@@ -129,7 +113,7 @@
   function generate3() {
     $('h1').each(function() {
       var g3 = grammar3.flatten("#prompt3#");
-     $("#3").prepend(g3 + "<br>"); 
+      $(this).text(g3);
     }) 
   }
       var grammarObj4 = {
@@ -144,7 +128,7 @@
   function generate4() {
     $('h1').each(function() {
       var g4 = grammar4.flatten("#prompt4#");
-      $("#4").prepend(g4 + "<br>"); 
+      $(this).text(g4);
     }) 
   }
       var grammarObj5 = {
@@ -160,7 +144,7 @@
   function generate5() {
     $('h1').each(function() {
       var g5 = grammar5.flatten("#prompt5#");
-      $("#5").prepend(g5 + "<br>"); 
+      $(this).text(g5);
     }) 
   }
        var grammarObj6 = {
@@ -175,7 +159,7 @@
   function generate6() {
     $('h1').each(function() {
       var g6 = grammarSOn.flatten("#prompt6#");
-      $("#6").prepend(g6 + "<br>"); 
+      $(this).text(g6);
     }) 
   }
             var grammarObj8 = {
@@ -189,7 +173,7 @@
   function generate8() {
     $('h1').each(function() {
       var g8 = grammar8.flatten("#prompt8#");
-      $("#8").prepend(g8 + "<br>"); 
+      $(this).text(g8);
     }) 
   }
        var grammarObj9 = {
@@ -205,7 +189,7 @@
   function generate9() {
     $('h1').each(function() {
       var g9 = grammar9.flatten("#prompt9#");
-     $("#9").prepend(g9 + "<br>"); 
+      $(this).text(g9);
     }) 
   }
        var grammarObj0 = {
@@ -222,7 +206,7 @@
   function generate0() {
     $('h1').each(function() {
       var g0 = grammar0.flatten("#prompt0#");
-      $("#0").prepend(g0 + "<br>"); 
+      $(this).text(g0);
     }) 
   }
        var grammarObj7 = {
@@ -238,7 +222,7 @@
   function generate7() {
     $('h1').each(function() {
       var g7 = grammarTHRn.flatten("#7#");
-      $("#7").prepend(g7 + "<br>"); 
+      $(this).text(g7);
     }) 
   }
        var grammarObje = {
@@ -254,7 +238,7 @@
   function generatee() {
     $('h1').each(function() {
       var ge = grammare.flatten("#prompte#");
-      $("#e").prepend(ge + "<br>"); 
+      $(this).text(ge);
     }) 
   }
       var grammarObjd = {
@@ -269,7 +253,7 @@
   function generated() {
     $('h1').each(function() {
       var gd = grammard.flatten("#promptd#");
-     $("#d").prepend(gd + "<br>"); 
+      $(this).text(gd);
     }) 
   }
        var grammarObjfh = {
@@ -284,7 +268,7 @@
   function generatefh() {
     $('h1').each(function() {
       var gfh = grammarfh.flatten("#promptfh#");
-      $("#fh").prepend(gfh + "<br>"); 
+      $(this).text(gfh);
     }) 
   }
    
@@ -300,7 +284,7 @@
   function generatej() {
     $('h1').each(function() {
       var gj = grammarj.flatten("#promptj#");
-      $("#j").prepend(gj + "<br>"); 
+      $(this).text(gj);
     }) 
   }
       
@@ -316,7 +300,7 @@
   function generatekt() {
     $('h1').each(function() {
       var gkt = grammarkt.flatten("#promptkt#");
-      $("#kt").prepend(gkt + "<br>"); 
+      $(this).text(gkt);
     }) 
   }
     </script> 

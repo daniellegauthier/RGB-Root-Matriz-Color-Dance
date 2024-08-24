@@ -6,7 +6,7 @@ let skeleton;
 let brain;
 
 let rSlider, gSlider, bSlider;
-
+let label;  
 let state = 'waiting';
 
 
@@ -27,22 +27,36 @@ function delay(time) {
     }
   });
 }
-
+function windowResized() {
+  resizeCanvas(windowWidth-400, 480);
+  video.size(windowWidth-400, 480);
+}
 function setup() {
-  
+  let canvas = createCanvas(windowWidth-400, 480);
+  canvas.parent('sketch-holder');
+
+  video = createCapture(VIDEO, function(stream) {
+    console.log('Video capture started');
+  });
+  video.size(windowWidth-400, 480);
+  video.hide();
+
+  video.elt.addEventListener('error', function(e) {
+    console.error('Video error:', e);
+  });
   rSlider = createSlider(0, 255, 0);
   gSlider = createSlider(0, 255, 0);
   bSlider = createSlider(0, 255, 0);
 
-  let canvas = createCanvas(windowWidth-400, 480);
-  canvas.parent('sketch-holder');
-  video = createCapture(VIDEO);
-  video.hide();
-   // Move the canvas so it’s inside our <div id="sketch-holder">.
-  canvas.parent('sketch-holder');
-
-  poseNet = ml5.poseNet(video, modelReady);
+    poseNet = ml5.poseNet(video, {
+  inputResolution: { width: windowWidth-400, height: 480 },
+  outputStride: 16,
+  flipHorizontal: true
+}, modelReady);
   poseNet.on('pose', gotPoses);
+
+  console.log('PoseNet is ready');
+
    let options = {
     inputs: 34,
     outputs: 3,
@@ -57,20 +71,19 @@ function setup() {
    weights: 'model.weights (23).bin',
    };
  brain.load(modelInfo, brainLoaded);
-  
-  createCanvas(640, 480);
-  
+
   // 
   voice = new p5.AudioIn();
   
   // 
   voice.start();
-
+  
 }
 function brainLoaded() {
   console.log('pose predicting ready!');
   predictColor();
 }
+
 function predictColor() {
   if (pose) {
     let inputs = [];
@@ -87,6 +100,10 @@ function predictColor() {
 }
 
 function gotResult(error, results) {
+  if (error) {
+    console.error(error);
+    return;
+  }
   let r = results[0].value;
   let g = results[1].value;
   let b = results[2].value;
@@ -95,9 +112,17 @@ function gotResult(error, results) {
   bSlider.value(b);
   predictColor();
 }
-let rLabel, gLabel, bLabel;   
+ 
 function gotPoses(poses) {
-  //console.log(poses);  
+  console.log('Poses detected:', poses.length);
+  if (poses.length > 0) {
+    pose = poses[0].pose;
+    skeleton = poses[0].skeleton;
+
+  
+    // Your pose detection logic here
+    // (the if-else statements for different poses)
+    //console.log(poses);  
    let LhipX = poses[0].pose.keypoints[11].position.x;
     let LhipY = poses[0].pose.keypoints[11].position.y;
   let RhipX = poses[0].pose.keypoints[12].position.x;
@@ -115,7 +140,7 @@ function gotPoses(poses) {
   let RshoulderX = poses[0].pose.keypoints[6].position.x;
   let RshoulderY = poses[0].pose.keypoints[6].position.y;
   let chest = dist(LshoulderY, LhipY, RshoulderY, RhipY);
-console.log(chest);
+//console.log(chest);
   let LelbowX = poses[0].pose.keypoints[7].position.x;
   let LelbowY = poses[0].pose.keypoints[7].position.y;
   let RelbowX = poses[0].pose.keypoints[8].position.x;
@@ -149,12 +174,13 @@ console.log(chest);
   //to do: upload sounds, q eyes and ears close, j program coming closer, kt face program, 0 color, 2 introduction sound, 3 program rising, 4 wide feet, 6 program lowering, 7 program work sound, 8 program user sound recognition, 9 program jazz hands or moving
    for (let i = 2; i < poses.length; i++) {
     let keypoints = poses[i].pose.keypoints;
-      if (poses.length > 0) {
-    let currentSoundLevel = voice.getLevel();
-      } else if (face >40) {
+     if (face >40) {
       generateq();
        //should work
-    } else if (LkneeX - RkneeX >= 150, LkneeY - RkneeY >= 150, RkneeX - LkneeX >= 150, RkneeY - LkneeY >=150) {
+    } else if (LkneeX - RkneeX >= 150, LkneeY - RkneeY >= 150) {
+      generate4();
+    }
+      else if (RkneeX - LkneeX >= 150, RkneeY - LkneeY >=150) {
     generate4();
       //
        } else if (LhandX - RhandX <=100){
@@ -187,12 +213,8 @@ console.log("Loud sound detected!");
    }
 
     }
-   
-   
-   if (poses.length > 0) {
-    pose = poses[0].pose;
-    skeleton = poses[0].skeleton;
-    if (state == 'collecting') {
+
+    if (state === 'collecting') {
       let inputs = [];
       for (let i = 0; i < pose.keypoints.length; i++) {
         let x = pose.keypoints[i].position.x;
@@ -200,20 +222,16 @@ console.log("Loud sound detected!");
         inputs.push(x);
         inputs.push(y);
       }
+      // Make sure targetColor is defined somewhere in your code
       brain.addData(inputs, targetColor);
     }
   }
 }
-
   
- //let lhX = poses[0].pose.keypoints[10].position.x;
-    //let lhY = poses[0].pose.keypoints[10].position.y;
-//function respond() { 
-  //if (lhx.length > 0) {
-   
-    
- // }
-//}
+poseNet.on('error', function(error) {
+  console.error("PoseNet error:", error);
+});
+
 function modelReady() {
   console.log('model ready');
 }
@@ -223,32 +241,36 @@ function modelLoaded() {
 
 
 function draw() {
-  //image(video, 0, 0);
-   push();
-  translate(video.width, 0);
+   if (video.elt.readyState === 4) {
+  // Display the mirrored video
+  push();
+  translate(width, 0);
   scale(-1, 1);
-  image(video, 0, 0, video.width, video.height);
-  
-    // Get current sound level from microphone
-let currentSoundLevel = voice.getLevel();
-  
-      
+  image(video, 0, 0, width, height);
+  pop();
 
   let r = rSlider.value();
   let g = gSlider.value();
   let b = bSlider.value();
   background(r, g, b, 100);
-     
 
+  let currentSoundLevel = voice.getLevel();
+  
+  if (currentSoundLevel > loudnessThreshold) {
+    console.log("Loud sound detected!");
+    generate8();
+  }
+  
   if (pose) {
+    // Draw skeleton
     for (let i = 0; i < skeleton.length; i++) {
       let a = skeleton[i][0];
       let b = skeleton[i][1];
       strokeWeight(2);
       stroke(0);
-
       line(a.position.x, a.position.y, b.position.x, b.position.y);
     }
+    // Draw keypoints
     for (let i = 0; i < pose.keypoints.length; i++) {
       let x = pose.keypoints[i].position.x;
       let y = pose.keypoints[i].position.y;
@@ -256,24 +278,12 @@ let currentSoundLevel = voice.getLevel();
       stroke(255);
       ellipse(x, y, 16, 16);
     }
+    poseNet.singlePose(video);
   }
-  pop();
-      
-      
-if (background == (108, 0, 192)) {
-   // saveCanvas();
-   generatCrownTitle();
-    }
+     } else {
+    background(200);
+    textAlign(CENTER, CENTER);
+    text('Waiting for video...', width/2, height/2);
+  }
 }
 
-
-
- // let d = dist(noseX, noseY, eyelX, eyelY);
-
-  //fill(255, 0, 0);
-  //ellipse(noseX, noseY, d);
-  //fill(0,0,255);
-  //ellipse(eyelX, eyelY, 50);
-
-
-//}
